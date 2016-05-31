@@ -4,6 +4,8 @@ Date Created: 05/31/2016
 Description: contains top-level instructions for solving TSP
 """
 
+DEBUG = 1
+
 #############################################################
 # Classes
 #############################################################
@@ -12,6 +14,7 @@ Description: contains top-level instructions for solving TSP
 class Node(object):
     """
     Definition for 2-Dimensional Node object
+    id = node id
     x = x coordinate
     y = y coordinate
     """
@@ -22,6 +25,8 @@ class Node(object):
     def __init__(self, id, x, y):
         """
         Initialize instance of Node object
+        with id, x coordinate, y coordinate
+        :param id:
         :param x:
         :param y:
         """
@@ -34,14 +39,37 @@ class Node(object):
 ##############################################################
 
 
-def distance(node):
+def readfile(filepath):
+    """
+    reads from filepath and returns file contents
+    :param filepath:
+    :return filecontents:
+    """
+    file = open(filepath, 'r')
+    filecontents = file.read()
+    filecontents = filecontents.strip()
+    return filecontents
+
+
+def formatmap(filecontents):
+    """
+    reads filecontents and formats
+    :param filecontents:
+    :return map:
+    """
+    i = 0
+    return
+
+
+def nodedistance(node):
     """
     returns sum of x and y coordinates of node object
     uses absolute values
     :param node:
-    :return node.x + node.y:
+    :return node.id, distance):
     """
-    return abs(node.x) + abs(node.y)
+    distance = abs(node.x) + abs(node.y)
+    return node.id, distance
 
 #############################################################
 # Main Function
@@ -49,6 +77,15 @@ def distance(node):
 
 
 def main():
+    if DEBUG:
+        print('Node function test:')
+        node = Node(0,55,65)
+        id, distance = nodedistance(node)
+        print('id: %d\tdistance: %d' % (id, distance))
+        print('Read file test:')
+        filepath = 'tsp_example_1.txt'
+        filecontents = readfile(filepath)
+        print('%s' % filecontents)
     return
 
 main()

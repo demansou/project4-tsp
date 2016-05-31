@@ -72,7 +72,7 @@ def formatmap(filecontents):
     list = re.split("[\n]",filecontents)
     for i in range(0,len(list)):
         list[i] = re.split("[ ]",list[i])
-        map.append(Node(list[i][0], list[i][1], list[i][2]))
+        map.append(Node(int(list[i][0]), int(list[i][1]), int(list[i][2])))
     return map
 
 
@@ -98,7 +98,10 @@ def main():
         filecontents = readfile(filepath)
         map = formatmap(filecontents)
         for i in range(0,len(map)):
-            print('id: %s\tx coord: %s\ty coord: %s' % (map[i].id, map[i].x, map[i].y))
+            print('id: %d\tx coord: %d\ty coord: %d' % (map[i].id, map[i].x, map[i].y))
+        for i in range(0,len(map)):
+            id, distance = nodedistance(map[i])
+            print('id: %d\tdistance: %d' % (id, distance))
     return
 
 main()

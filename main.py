@@ -3,6 +3,17 @@ File Name: main.py
 Date Created: 05/31/2016
 Description: contains top-level instructions for solving TSP
 """
+#############################################################
+# Imports
+#############################################################
+
+import re
+
+#############################################################
+# DEBUG
+# 1 = ON
+# 0 = OFF
+#############################################################
 
 DEBUG = 1
 
@@ -34,9 +45,9 @@ class Node(object):
         self.x = x
         self.y = y
 
-##############################################################
+#############################################################
 # Supplemetal Functions
-##############################################################
+#############################################################
 
 
 def readfile(filepath):
@@ -57,8 +68,12 @@ def formatmap(filecontents):
     :param filecontents:
     :return map:
     """
-    i = 0
-    return
+    map = []
+    list = re.split("[\n]",filecontents)
+    for i in range(0,len(list)):
+        list[i] = re.split("[ ]",list[i])
+        map.append(Node(list[i][0], list[i][1], list[i][2]))
+    return map
 
 
 def nodedistance(node):
@@ -78,14 +93,12 @@ def nodedistance(node):
 
 def main():
     if DEBUG:
-        print('Node function test:')
-        node = Node(0,55,65)
-        id, distance = nodedistance(node)
-        print('id: %d\tdistance: %d' % (id, distance))
-        print('Read file test:')
+        # print('Read file test:')
         filepath = 'tsp_example_1.txt'
         filecontents = readfile(filepath)
-        print('%s' % filecontents)
+        map = formatmap(filecontents)
+        for i in range(0,len(map)):
+            print('id: %s\tx coord: %s\ty coord: %s' % (map[i].id, map[i].x, map[i].y))
     return
 
 main()

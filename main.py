@@ -8,6 +8,7 @@ Description: contains top-level instructions for solving TSP
 #############################################################
 
 import re
+import math
 
 #############################################################
 # DEBUG
@@ -46,7 +47,7 @@ class Node(object):
         self.y = y
 
 #############################################################
-# Supplemetal Functions
+# Supplemental Functions
 #############################################################
 
 
@@ -76,15 +77,15 @@ def formatmap(filecontents):
     return map
 
 
-def nodedistance(node):
+def nodedistance(origin, destination):
     """
-    returns sum of x and y coordinates of node object
+    returns pythagorean distance between origin and destination
     uses absolute values
-    :param node:
-    :return node.id, distance):
+    :param origin, destination:
+    :return origin.id, destination.id, distance):
     """
-    distance = abs(node.x) + abs(node.y)
-    return node.id, distance
+    distance = int(round(math.sqrt(math.pow((origin.x - destination.x), 2) + math.pow((origin.y - destination.y), 2))))
+    return origin.id, destination.id, distance
 
 #############################################################
 # Main Function
@@ -99,9 +100,10 @@ def main():
         map = formatmap(filecontents)
         for i in range(0,len(map)):
             print('id: %d\tx coord: %d\ty coord: %d' % (map[i].id, map[i].x, map[i].y))
-        for i in range(0,len(map)):
-            id, distance = nodedistance(map[i])
-            print('id: %d\tdistance: %d' % (id, distance))
+        origin, destination, distance = nodedistance(map[0], map[1])
+        print('origin: %d\tdestination: %d\tdistance: %d' % (origin, destination, distance))
+        origin, destination, distance = nodedistance(map[0], map[30])
+        print('origin: %d\tdestination: %d\tdistance: %d' % (origin, destination, distance))
     return
 
 main()

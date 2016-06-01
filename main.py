@@ -26,25 +26,53 @@ DEBUG = 1
 class Node(object):
     """
     Definition for 2-Dimensional Node object
-    id = node id
+    nodeid = node id
     x = x coordinate
     y = y coordinate
     """
-    id = 0
+    nodeid = 0
     x = 0
     y = 0
 
-    def __init__(self, id, x, y):
+    def __init__(self, nodeid, x, y):
         """
         Initialize instance of Node object
-        with id, x coordinate, y coordinate
-        :param id:
+        with nodeid, x coordinate, y coordinate
+        :param nodeid:
         :param x:
         :param y:
         """
-        self.id = id
+        self.nodeid = nodeid
         self.x = x
         self.y = y
+
+
+class TSPMatrix(object):
+    """
+    Definition for Matrix object
+    matrixid = new id for connection
+    originid = origin node id
+    destinationid = destination node id
+    distsaince = distance from origin to destination
+    """
+    matrixid = 0
+    originid = 0
+    destinationid = 0
+    distance = 0
+
+    def __init__(self, matrixid, originid, destinationid, distance):
+        """
+        initialize instance of TSPMatrix object
+        with id, originid, destinationid, distance
+        :param id:
+        :param originid:
+        :param destinationid:
+        :param distance:
+        """
+        self.matrixid = matrixid
+        self.originid = originid
+        self.destinationid = destinationid
+        self.distance = distance
 
 #############################################################
 # Supplemental Functions
@@ -85,7 +113,23 @@ def nodedistance(origin, destination):
     :return origin.id, destination.id, distance):
     """
     distance = int(round(math.sqrt(math.pow((origin.x - destination.x), 2) + math.pow((origin.y - destination.y), 2))))
-    return origin.id, destination.id, distance
+    return origin.nodeid, destination.nodeid, distance
+
+
+def connectmap(map):
+    """
+
+    :param map:
+    :return connections:
+    """
+    connections = []
+    count = 0
+    for i in range(0, len(map)):
+        for j in range(i, len(map)):
+            originid, destinationid, distance = nodedistance(map[i],map[j])
+            connections.append(TSPMatrix(count, originid, destinationid, distance))
+            count += 1
+    return connections
 
 #############################################################
 # Main Function
@@ -94,16 +138,15 @@ def nodedistance(origin, destination):
 
 def main():
     if DEBUG:
-        # print('Read file test:')
         filepath = 'tsp_example_1.txt'
         filecontents = readfile(filepath)
         map = formatmap(filecontents)
-        for i in range(0,len(map)):
-            print('id: %d\tx coord: %d\ty coord: %d' % (map[i].id, map[i].x, map[i].y))
-        origin, destination, distance = nodedistance(map[0], map[1])
-        print('origin: %d\tdestination: %d\tdistance: %d' % (origin, destination, distance))
-        origin, destination, distance = nodedistance(map[0], map[30])
-        print('origin: %d\tdestination: %d\tdistance: %d' % (origin, destination, distance))
+        for i in range(0, len(map)):
+            print('[map] id: %d\tx coord: %d\ty coord: %d' % (map[i].nodeid, map[i].x, map[i].y))
+        connections = connectmap(map)
+        for i in range(0, len(connections)):
+            print('[connections] id: %d\torigin id: %d\tdestination id: %d\tdistance: %d'
+                  % (connections[i].matrixid, connections[i].originid, connections[i].destinationid, connections[i].distance))
     return
 
 main()

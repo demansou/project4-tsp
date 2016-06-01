@@ -166,6 +166,19 @@ def greedyhamiltoniancycle(connections, map):
     hamcycle.append(minconnection)
     return hamcycle
 
+def generateoutput(hamcycle):
+    """
+    generates output in desired format (file.txt.tour)
+    :param hamcycle:
+    :return:
+    """
+    distance = 0
+    nodesvisited = []
+    for i in range(0,len(hamcycle)):
+        distance += hamcycle[i][3]
+        nodesvisited.append(hamcycle[i][1])
+    return distance, nodesvisited
+
 #############################################################
 # Main Function
 #############################################################
@@ -185,6 +198,10 @@ def main():
         hamcycle = greedyhamiltoniancycle(connections, map)
         for i in range(0, len(hamcycle)):
             print('[hamcycle] %d:\t%s' % (i, hamcycle[i]))
+        distance, nodesvisited = generateoutput(hamcycle)
+        print('[output] %d' % distance)
+        for i in range(0, len(nodesvisited)):
+            print('[output] %d' % nodesvisited[i])
     return
 
 main()

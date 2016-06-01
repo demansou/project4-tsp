@@ -107,7 +107,7 @@ def formatmap(filecontents):
 
 def nodedistance(origin, destination):
     """
-    returns pythagorean distance between origin and destination
+    returns Euclidean distance between origin and destination
     uses absolute values
     :param origin, destination:
     :return origin.id, destination.id, distance):
@@ -118,7 +118,8 @@ def nodedistance(origin, destination):
 
 def connectmap(map):
     """
-
+    connects all points in a map object
+    returns a list of connections
     :param map:
     :return connections:
     """

@@ -132,6 +132,40 @@ def connectmap(map):
             count += 1
     return connections
 
+
+def greedyhamiltoniancycle(connections, map):
+    """
+    creates greedy hamiltonian circuit connecting all nodes to each other
+    each node is visited once except the origin node
+    :param connections, map:
+    :return circuit:
+    """
+    hamcycle = []
+    destinationused = []
+    minconnection = [0, 0, 0, 0]
+    for i in range(len(connections) - 1, -1, -1):
+        if connections[i].distance == 0:
+            if i < len(connections) - 1:
+                circuit.append(minconnection)
+                destinationused.append(minconnection[2])
+            minconnection = [connections[i].matrixid, connections[i].originid,
+                             connections[i].destinationid, connections[i].distance]
+        else:
+            if minconnection[3] == 0:
+                if connections[i].destinationid not in destinationused:
+                    minconnection = [connections[i].matrixid, connections[i].originid,
+                                     connections[i].destinationid, connections[i].distance]
+            else:
+                if minconnection[3] > connections[i].distance:
+                    if connections[i].destinationid not in destinationused:
+                        minconnection = [connections[i].matrixid, connections[i].originid,
+                                         connections[i].destinationid, connections[i].distance]
+    # this one is reversed origin <~> destination
+    minconnection = [connections[len(map) - 1].matrixid, connections[len(map) - 1].destinationid,
+                     connections[len(map) - 1].originid, connections[len(map) - 1].distance]
+    circuit.append(minconnection)
+    return hamcycle
+
 #############################################################
 # Main Function
 #############################################################
@@ -148,6 +182,9 @@ def main():
         for i in range(0, len(connections)):
             print('[connections] id: %d\torigin id: %d\tdestination id: %d\tdistance: %d'
                   % (connections[i].matrixid, connections[i].originid, connections[i].destinationid, connections[i].distance))
+        hamcycle = greedyhamiltoniancycle(connections, map)
+        for i in range(0, len(hamcycle)):
+            print('[hamcycle] %d:\t%s' % (i, hamcycle[i]))
     return
 
 main()

@@ -146,7 +146,7 @@ def greedyhamiltoniancycle(connections, map):
     for i in range(len(connections) - 1, -1, -1):
         if connections[i].distance == 0:
             if i < len(connections) - 1:
-                circuit.append(minconnection)
+                hamcycle.append(minconnection)
                 destinationused.append(minconnection[2])
             minconnection = [connections[i].matrixid, connections[i].originid,
                              connections[i].destinationid, connections[i].distance]
@@ -163,7 +163,7 @@ def greedyhamiltoniancycle(connections, map):
     # this one is reversed origin <~> destination
     minconnection = [connections[len(map) - 1].matrixid, connections[len(map) - 1].destinationid,
                      connections[len(map) - 1].originid, connections[len(map) - 1].distance]
-    circuit.append(minconnection)
+    hamcycle.append(minconnection)
     return hamcycle
 
 #############################################################

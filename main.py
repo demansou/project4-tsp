@@ -229,7 +229,7 @@ def printtofile(filepath, distance, nodesvisited):
 #############################################################
 
 
-def main():
+def main(filepath):
     if DEBUG:
         filepath = getfilepath()
         filecontents = readfile(filepath)
@@ -248,7 +248,6 @@ def main():
         for i in range(0, len(nodesvisited)):
             print("[output] %d" % nodesvisited[i])
         printtofile(filepath, distance, nodesvisited)
-    filepath = getfilepath()
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
     connections = connectmap(map)
@@ -257,5 +256,7 @@ def main():
     printtofile(filepath, distance, nodesvisited)
     return
 
-t = timeit.Timer(lambda: main())
-print("%f" % t.timeit(number=1))
+
+filepath = getfilepath()
+t = timeit.Timer(lambda: main(filepath))
+print("%f seconds" % t.timeit(number=1))

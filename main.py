@@ -208,6 +208,7 @@ def generateoutput(hamcycle):
         nodesvisited.append(hamcycle[i][1])
     return distance, nodesvisited
 
+
 def printtofile(filepath, distance, nodesvisited):
     """
     prints TSP optimal distance and nodes visited
@@ -222,9 +223,6 @@ def printtofile(filepath, distance, nodesvisited):
     for node in nodesvisited:
         filehandler.write("%d\n" % node)
     return
-
-
-
 
 #############################################################
 # Main Function

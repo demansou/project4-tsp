@@ -231,7 +231,6 @@ def printtofile(filepath, distance, nodesvisited):
 
 def main(filepath):
     if DEBUG:
-        filepath = getfilepath()
         filecontents = readfile(filepath)
         map = formatmap(filecontents)
         for i in range(0, len(map)):

@@ -1,8 +1,8 @@
 """
-File Name: main.py
+File Name: new.py
 Date Created: 05/31/2016
 Description: contains top-level instructions for solving TSP
-Command line: python main.py [inputfile.txt]
+Command line: python new.py [inputfile.txt]
 Output to file: inputfile.txt.tour
 """
 #############################################################
@@ -51,31 +51,30 @@ class Node(object):
         self.y = y
 
 
-class TSPMatrix(object):
+class MapConnection(object):
     """
-    Definition for Matrix object
-    matrixid = new id for connection
-    originid = origin node id
-    destinationid = destination node id
-    distsaince = distance from origin to destination
+    Definition for 2-Dimensional MapConnection object
+    connectionid = connection id
+    origin = origin node
+    destination = destination node
+    distance = distance from origin node to destination node in 2-D space
     """
-    matrixid = 0
-    originid = 0
-    destinationid = 0
+    connectionid = 0
+    origin = Node(0, 0, 0)
+    destination = Node(0, 0, 0)
     distance = 0
 
-    def __init__(self, matrixid, originid, destinationid, distance):
+    def __init__(self, connectionid, origin, destination, distance):
         """
-        initialize instance of TSPMatrix object
-        with id, originid, destinationid, distance
-        :param id:
-        :param originid:
-        :param destinationid:
+        Initialize instance of MapConnection object
+        :param connectionid:
+        :param origin:
+        :param destination:
         :param distance:
         """
-        self.matrixid = matrixid
-        self.originid = originid
-        self.destinationid = destinationid
+        self.connectionid = connectionid
+        self.origin = origin
+        self.destination = destination
         self.distance = distance
 
 #############################################################
@@ -99,7 +98,6 @@ def getfilepath():
             break
     return filepath
 
-
 def readfile(filepath):
     """
     reads from filepath and returns file contents
@@ -111,7 +109,6 @@ def readfile(filepath):
     filecontents = filecontents.strip()
     return filecontents
 
-
 def formatmap(filecontents):
     """
     reads filecontents and formats
@@ -119,7 +116,7 @@ def formatmap(filecontents):
     :return map:
     """
     map = []
-    list = re.split("[\n]",filecontents)
+    list = re.split("[\n]", filecontents)
     for i in range(0, len(list)):
         list[i] = list[i].strip()
         list[i] = re.split("[ ]", list[i])
@@ -131,83 +128,45 @@ def formatmap(filecontents):
         map.append(Node(int(list[i][0]), int(list[i][1]), int(list[i][2])))
     return map
 
-
 def nodedistance(origin, destination):
     """
     returns Euclidean distance between origin and destination
     uses absolute values
     :param origin, destination:
-    :return origin.id, destination.id, distance):
+    :return distance):
     """
-    distance = int(round(math.sqrt(math.pow((origin.x - destination.x), 2) + math.pow((origin.y - destination.y), 2))))
-    return origin.nodeid, destination.nodeid, distance
+    distance = int(
+        round(math.sqrt(math.pow((origin.x - destination.x), 2) + math.pow((origin.y - destination.y), 2))))
+    return distance
 
 
-def connectmap(map):
-    """
-    connects all points in a map object
-    returns a list of connections
-    :param map:
-    :return connections:
-    """
-    connections = []
-    count = 0
-    for i in range(0, len(map)):
-        for j in range(i, len(map)):
-            originid, destinationid, distance = nodedistance(map[i],map[j])
-            connections.append(TSPMatrix(count, originid, destinationid, distance))
-            count += 1
-    return connections
-
-
-def greedyhamiltoniancycle(connections, map):
+def greedyhamiltoniancycle(map):
     """
     creates greedy hamiltonian circuit connecting all nodes to each other
     each node is visited once except the origin node
-    :param connections, map:
-    :return circuit:
+    :param map:
+    :return hamcycle:
     """
     hamcycle = []
-    destinationused = []
-    minconnection = [0, 0, 0, 0]
-    for i in range(len(connections) - 1, -1, -1):
-        if connections[i].distance == 0:
-            if i < len(connections) - 1:
-                hamcycle.append(minconnection)
-                destinationused.append(minconnection[2])
-            minconnection = [connections[i].matrixid, connections[i].originid,
-                             connections[i].destinationid, connections[i].distance]
-        else:
-            if minconnection[3] == 0:
-                if connections[i].destinationid not in destinationused:
-                    minconnection = [connections[i].matrixid, connections[i].originid,
-                                     connections[i].destinationid, connections[i].distance]
-            else:
-                if minconnection[3] > connections[i].distance:
-                    if connections[i].destinationid not in destinationused:
-                        minconnection = [connections[i].matrixid, connections[i].originid,
-                                         connections[i].destinationid, connections[i].distance]
-    # this one is reversed origin <~> destination
-    minconnection = [connections[len(map) - 1].matrixid, connections[len(map) - 1].destinationid,
-                     connections[len(map) - 1].originid, connections[len(map) - 1].distance]
-    hamcycle.append(minconnection)
+    for i in range(0, len(map) - 1):
+        connection = MapConnection(i, map[i], map[i+1], nodedistance(map[i], map[i+1]))
+        hamcycle.append(connection)
+    connection = MapConnection(len(map), map[len(map) - 1], map[0], nodedistance(map[len(map) - 1], map[0]))
+    hamcycle.append(connection)
     return hamcycle
-
-# need to optimize path generated by greedy hamiltonian cycle function (2-opt)
 
 def generateoutput(hamcycle):
     """
     generates output in desired format (file.txt.tour)
     :param hamcycle:
-    :return:
+    :return distance, nodesvisited:
     """
     distance = 0
     nodesvisited = []
-    for i in range(0,len(hamcycle)):
-        distance += hamcycle[i][3]
-        nodesvisited.append(hamcycle[i][1])
+    for i in range(0, len(hamcycle)):
+        distance += hamcycle[i].distance
+        nodesvisited.append(hamcycle[i].origin)
     return distance, nodesvisited
-
 
 def printtofile(filepath, distance, nodesvisited):
     """
@@ -221,7 +180,7 @@ def printtofile(filepath, distance, nodesvisited):
     filehandler = open(filepath, "w")
     filehandler.write("%d\n" % distance)
     for node in nodesvisited:
-        filehandler.write("%d\n" % node)
+        filehandler.write("%d\n" % node.nodeid)
     return
 
 #############################################################
@@ -231,27 +190,21 @@ def printtofile(filepath, distance, nodesvisited):
 
 def main(filepath):
     if DEBUG:
-        filepath = getfilepath()
         filecontents = readfile(filepath)
         map = formatmap(filecontents)
         for i in range(0, len(map)):
             print("[map] id: %d\tx coord: %d\ty coord: %d" % (map[i].nodeid, map[i].x, map[i].y))
-        connections = connectmap(map)
-        for i in range(0, len(connections)):
-            print("[connections] id: %d\torigin id: %d\tdestination id: %d\tdistance: %d"
-                  % (connections[i].matrixid, connections[i].originid, connections[i].destinationid, connections[i].distance))
-        hamcycle = greedyhamiltoniancycle(connections, map)
+        hamcycle = greedyhamiltoniancycle(map)
         for i in range(0, len(hamcycle)):
-            print("[hamcycle] %d:\t%s" % (i, hamcycle[i]))
+            print("[hamcycle] %d:\t%d\t%d\t%d" % (i, hamcycle[i].origin.nodeid, hamcycle[i].destination.nodeid, hamcycle[i].distance))
         distance, nodesvisited = generateoutput(hamcycle)
-        print("[output] %d" % distance)
-        for i in range(0, len(nodesvisited)):
-            print("[output] %d" % nodesvisited[i])
+        print("distance travelled: %d" % distance)
+        for node in nodesvisited:
+            print("node visited: %d" % node.nodeid)
         printtofile(filepath, distance, nodesvisited)
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
-    connections = connectmap(map)
-    hamcycle = greedyhamiltoniancycle(connections, map)
+    hamcycle = greedyhamiltoniancycle(map)
     distance, nodesvisited = generateoutput(hamcycle)
     printtofile(filepath, distance, nodesvisited)
     return

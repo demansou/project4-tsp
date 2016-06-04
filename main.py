@@ -261,7 +261,7 @@ def main(filepath):
         for node in nodesvisited:
             print("node visited: %d" % node.nodeid)
         printtofile(filepath, distance, nodesvisited)
-        result = routes_overlap(hamcycle[0], hamcycle[1])
+        result = routes_overlap(hamcycle[1], hamcycle[2])
         if result == True:
             print("intersects")
         else:

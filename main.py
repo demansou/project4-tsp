@@ -174,7 +174,7 @@ def edge_swap(hamcycle, i, j):
     :param j: node 2 to swap
     :return: updated hamcycle with two new edges and edge distance updates
     """
-    olddistance = nodedistance(hamcycle[i].origin, hamcycle[i].destination) + nodedistance(hamcycle[j].origin, hamcycle[j].destination)
+    olddistance = hamcycle[i].distance + hamcycle[j].distance
     newdistance = nodedistance(hamcycle[i].origin, hamcycle[j].destination) + nodedistance(hamcycle[j].origin, hamcycle[i].destination)
     # print("olddistance: %d\t newdistance: %d" % (olddistance, newdistance))
     if olddistance > newdistance:

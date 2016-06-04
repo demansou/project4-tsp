@@ -170,8 +170,8 @@ def edge_swap(hamcycle, i, j):
     :return: updated hamcycle with two new edges and edge distance updates
     """
     # The next three lines use a temp node to swap the data
-    hamcycle[i].destination = hamcycle[j].destination
     temp_node = hamcycle[i].destination
+    hamcycle[i].destination = hamcycle[j].destination
     hamcycle[j].destination = temp_node
     if DEBUG:
         print("[ANTE SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))

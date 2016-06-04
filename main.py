@@ -226,7 +226,7 @@ def optimizehamcycle(hamcycle):
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     hamcycle = edge_swap(hamcycle, i, j)
                     if COMPETITION:
-                        randomnumber = random.randrange(0, 100)
+                        randomnumber = random.randrange(0, 50)
                         if randomnumber == 0:
                             break
     return hamcycle

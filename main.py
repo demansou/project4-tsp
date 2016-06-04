@@ -204,12 +204,17 @@ def routes_overlap(mapconnection1, mapconnection2):
     return False
 
 
-def optimizehamcycle(hamcycle, map):
+def optimizehamcycle(hamcycle):
     """
 
     :param hamcycle:
     :return:
     """
+    for i in (0, len(hamcycle)):
+        for j in (0, len(hamcycle)):
+            if i != j:
+                if routes_overlap(hamcycle[i], hamcycle[j]):
+                    print("intersect present: hamcycle[%d] & hamcycle[%d]" % (i, j))
     return
 
 
@@ -261,11 +266,7 @@ def main(filepath):
         for node in nodesvisited:
             print("node visited: %d" % node.nodeid)
         printtofile(filepath, distance, nodesvisited)
-        result = routes_overlap(hamcycle[1], hamcycle[2])
-        if result == True:
-            print("intersects")
-        else:
-            print("no intersects")
+        optimizehamcycle(hamcycle)
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
     hamcycle = greedyhamiltoniancycle(map)

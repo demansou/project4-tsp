@@ -215,9 +215,13 @@ def optimizehamcycle(hamcycle):
             if i != j:
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     temphamcycle = edge_swap(hamcycle, i, j)
-                    if temphamcycle.distance < hamcycle.distance:
+                    for i in range(0, len(hamcycle)):
+                        hamcycledistance += hamcycle[i].distance
+                    for i in range(0, len(temphamcycle)):
+                        temphamcycledistance += temphamcycle[i].distance
+                    if temphamcycledistance < hamcycledistance:
                         hamcycle = temphamcycle
-                    break
+                        break
     return hamcycle
 
 

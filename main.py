@@ -210,8 +210,8 @@ def optimizehamcycle(hamcycle):
     :param hamcycle:
     :return:
     """
-    for i in (0, len(hamcycle)):
-        for j in (0, len(hamcycle)):
+    for i in (0, len(hamcycle) - 1):
+        for j in (0, len(hamcycle) - 1):
             if i != j:
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     print("intersect present: hamcycle[%d] & hamcycle[%d]" % (i, j))

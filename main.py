@@ -210,6 +210,8 @@ def optimizehamcycle(hamcycle):
     :param hamcycle:
     :return:
     """
+    hamcycledistance = 0
+    temphamcycledistance = 0
     for i in range(0, len(hamcycle) - 1):
         for j in range(0, len(hamcycle) - 1):
             if i != j:
@@ -221,7 +223,11 @@ def optimizehamcycle(hamcycle):
                         temphamcycledistance += temphamcycle[i].distance
                     if temphamcycledistance < hamcycledistance:
                         hamcycle = temphamcycle
+                        hamcycledistance = 0
+                        temphamcycledistance = 0
                         break
+                    hamcycledistance = 0
+                    temphamcycledistance = 0
     return hamcycle
 
 

@@ -191,48 +191,6 @@ def routes_overlap(MapConnection1, MapConnection2):
     :param MapConnection2: (MapConnection object)
     :return bool:
     """
-    """
-    origin1 = numpy.array([float(MapConnection1.origin.x), float(MapConnection1.origin.y)])
-    destination1 = numpy.array([float(MapConnection1.destination.x), float(MapConnection1.destination.y)])
-    origin2 = numpy.array([float(MapConnection2.origin.x), float(MapConnection2.origin.y)])
-    destination2 = numpy.array([float(MapConnection2.destination.x), float(MapConnection2.destination.y)])
-    route1 = destination1 - origin1
-    route2 = destination2 - origin2
-    distance1 = origin1 - origin2
-    perpendicularslope = numpy.empty_like(route1)
-    perpendicularslope[0] = -route1[1]
-    perpendicularslope[1] = route1[0]
-    denominator = numpy.dot(perpendicularslope, route2)
-    numerator = numpy.dot(perpendicularslope, distance1)
-    intersect = (numerator / denominator.astype(float)) * route2 + origin2
-    if DEBUG:
-        print("[hamcycle] %f %f" % (intersect[0], intersect[1]))
-    if origin1[0] > destination1[0]:
-        if not (origin1[0] >= intersect[0] >= destination1[0]):
-            return False
-    elif origin1[0] < destination1[0]:
-        if not (origin1[0] <= intersect[0] <= destination1[0]):
-            return False
-    if origin1[1] > destination1[1]:
-        if not (origin1[1] >= intersect[1] >= destination1[1]):
-            return False
-    elif origin1[1] < destination1[1]:
-        if not (origin1[1] <= intersect[1] <= destination1[1]):
-            return False
-    if origin2[0] > destination2[0]:
-        if not (origin2[0] >= intersect[0] >= destination2[0]):
-            return False
-    elif origin2[0] < destination2[0]:
-        if not (origin2[0] <= intersect[0] <= destination2[0]):
-            return False
-    if origin2[1] > destination2[1]:
-        if not (origin2[1] >= intersect[1] >= destination2[1]):
-            return False
-    elif origin2[1] < destination2[1]:
-        if not (origin2[1] <= intersect[1] <= destination2[1]):
-            return False
-    return True
-    """
     origin1 = numpy.array([MapConnection1.origin.x, MapConnection1.origin.y])
     destination1 = numpy.array([MapConnection1.destination.x, MapConnection1.destination.y])
     origin2 = numpy.array([MapConnection2.origin.x, MapConnection2.origin.y])
@@ -243,8 +201,9 @@ def routes_overlap(MapConnection1, MapConnection2):
                 * numpy.cross((origin2 * destination2), (destination2 * destination1))
     if equation1 < 0 and equation2 < 0:
         return True
+    return False
 
-    return
+
 def optimizehamcycle(hamcycle, map):
     """
 

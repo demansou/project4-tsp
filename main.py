@@ -14,6 +14,7 @@ import re
 import math
 import timeit
 import numpy
+import random
 
 #############################################################
 # DEBUG
@@ -224,7 +225,9 @@ def optimizehamcycle(hamcycle):
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     hamcycle = edge_swap(hamcycle, i, j)
                     if improveperformance:
-                        break
+                        randomnumber = random.randrange(0,10)
+                        if randomnumber == 0:
+                            break
     return hamcycle
 
 

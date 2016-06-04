@@ -169,18 +169,22 @@ def edge_swap(hamcycle, i, j):
     :param j: node 2 to swap
     :return: updated hamcycle with two new edges and edge distance updates
     """
-    # The next three lines use a temp node to swap the data
-    temp_node = hamcycle[i].origin
-    hamcycle[i].origin = hamcycle[j].origin
-    hamcycle[j].origin = temp_node
-    if DEBUG:
-        print("[ANTE SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
+    olddistance = nodedistance(hamcycle[i].origin, hamcycle[i].destination) + nodedistance(hamcycle[j].origin, hamcycle[j].destination)
+    newdistance = nodedistance(hamcycle[i].origin, hamcycle[j].destination) + nodedistance(hamcycle[j].origin, hamcycle[i].destination)
 
-    # Update the distances of the new paths
-    hamcycle[i].distance = nodedistance(hamcycle[i].origin, hamcycle[i].destination)
-    hamcycle[j].distance = nodedistance(hamcycle[j].origin, hamcycle[j].destination)
-    if DEBUG:
-        print("[POST SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
+    if olddistance > newdistance:
+        # The next three lines use a temp node to swap the data
+        temp_node = hamcycle[i].origin
+        hamcycle[i].origin = hamcycle[j].origin
+        hamcycle[j].origin = temp_node
+        if DEBUG:
+            print("[ANTE SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
+
+        # Update the distances of the new paths
+        hamcycle[i].distance = nodedistance(hamcycle[i].origin, hamcycle[i].destination)
+        hamcycle[j].distance = nodedistance(hamcycle[j].origin, hamcycle[j].destination)
+        if DEBUG:
+            print("[POST SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
     return hamcycle
 
 
@@ -217,18 +221,8 @@ def optimizehamcycle(hamcycle):
             print("[optimizehamcycle] i: %d\tj: %d" % (i, j))
             if i != j:
                 if routes_overlap(hamcycle[i], hamcycle[j]):
-                    temphamcycle = edge_swap(hamcycle, i, j)
-                    for x in range(0, len(hamcycle)):
-                        hamcycledistance += hamcycle[i].distance
-                    for x in range(0, len(temphamcycle)):
-                        temphamcycledistance += temphamcycle[i].distance
-                    if temphamcycledistance < hamcycledistance:
-                        hamcycle = temphamcycle
-                        hamcycledistance = 0
-                        temphamcycledistance = 0
-                        break
-                    hamcycledistance = 0
-                    temphamcycledistance = 0
+                    hamcycle = edge_swap(hamcycle, i, j)
+                    break
     return hamcycle
 
 

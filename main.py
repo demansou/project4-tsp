@@ -284,7 +284,7 @@ def main(filepath):
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
     hamcycle = greedyhamiltoniancycle(map)
-    numloops = 2 * math.ceil(math.log10(len(hamcycle)))
+    numloops = 2 * int(math.ceil(math.log10(len(hamcycle))))
     if COMPETITION:
         numloops /= 2
     for i in range(0,numloops):

@@ -21,7 +21,7 @@ import numpy
 # 0 = OFF
 #############################################################
 
-DEBUG = 1
+DEBUG = 0
 
 #############################################################
 # Classes
@@ -271,6 +271,7 @@ def main(filepath):
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
     hamcycle = greedyhamiltoniancycle(map)
+    hamcycle = optimizehamcycle(hamcycle)
     distance, nodesvisited = generateoutput(hamcycle)
     printtofile(filepath, distance, nodesvisited)
     return

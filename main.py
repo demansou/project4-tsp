@@ -220,7 +220,7 @@ def optimizehamcycle(hamcycle):
         improveperformance = 1
     for i in range(0, len(hamcycle) - 1):
         for j in range(0, len(hamcycle) - 1):
-            print("[optimizehamcycle] i: %d\tj: %d" % (i, j))
+            # print("[optimizehamcycle] i: %d\tj: %d" % (i, j))
             if i != j:
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     hamcycle = edge_swap(hamcycle, i, j)

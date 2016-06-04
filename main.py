@@ -215,6 +215,8 @@ def optimizehamcycle(hamcycle):
             if i != j:
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     print("intersect present: hamcycle[%d] & hamcycle[%d]" % (i, j))
+                else:
+                    print("intersect not present: hamcycle[%d] & hamcycle[%d]" % (i, j))
     return
 
 

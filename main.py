@@ -13,6 +13,7 @@ import sys
 import re
 import math
 import timeit
+import numpy
 
 #############################################################
 # DEBUG

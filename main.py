@@ -99,6 +99,7 @@ def getfilepath():
             break
     return filepath
 
+
 def readfile(filepath):
     """
     reads from filepath and returns file contents
@@ -109,6 +110,7 @@ def readfile(filepath):
     filecontents = file.read()
     filecontents = filecontents.strip()
     return filecontents
+
 
 def formatmap(filecontents):
     """
@@ -128,6 +130,7 @@ def formatmap(filecontents):
             print("%s %s %s" % (list[i][0], list[i][1], list[i][2]))
         map.append(Node(int(list[i][0]), int(list[i][1]), int(list[i][2])))
     return map
+
 
 def nodedistance(origin, destination):
     """
@@ -156,6 +159,7 @@ def greedyhamiltoniancycle(map):
     hamcycle.append(connection)
     return hamcycle
 
+
 def edge_swap(hamcycle, i, j):
     """
     edge_swap will take the current hamcycle and the index positions of two edges
@@ -178,6 +182,7 @@ def edge_swap(hamcycle, i, j):
     if DEBUG:
         print("[POST SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
     return hamcycle
+
 
 def routes_overlap(MapConnection1, MapConnection2):
     """
@@ -203,6 +208,7 @@ def routes_overlap(MapConnection1, MapConnection2):
         print("[hamcycle]%f" % intersect)
     return
 
+
 def optimizehamcycle(hamcycle, map):
     """
 
@@ -210,6 +216,7 @@ def optimizehamcycle(hamcycle, map):
     :return:
     """
     return
+
 
 def generateoutput(hamcycle):
     """
@@ -223,6 +230,7 @@ def generateoutput(hamcycle):
         distance += hamcycle[i].distance
         nodesvisited.append(hamcycle[i].origin)
     return distance, nodesvisited
+
 
 def printtofile(filepath, distance, nodesvisited):
     """

@@ -287,10 +287,9 @@ def main(filepath):
     map = formatmap(filecontents)
     hamcycle = greedyhamiltoniancycle(map)
     numloops = 2 * math.ceil(math.log10(len(hamcycle)))
-    numloops = int(numloops)
     if COMPETITION:
         numloops /= 2
-        numloops = int(numloops)
+    numloops = int(numloops)
     for i in range(0,numloops):
         hamcycle = optimizehamcycle(hamcycle)
     distance, nodesvisited = generateoutput(hamcycle)

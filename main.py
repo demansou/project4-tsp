@@ -20,7 +20,7 @@ import timeit
 # 0 = OFF
 #############################################################
 
-DEBUG = 0
+DEBUG = 1
 
 #############################################################
 # Classes
@@ -196,7 +196,7 @@ def main(filepath):
             print("[map] id: %d\tx coord: %d\ty coord: %d" % (map[i].nodeid, map[i].x, map[i].y))
         hamcycle = greedyhamiltoniancycle(map)
         for i in range(0, len(hamcycle)):
-            print("[hamcycle] %d:\t%d\t%d\t%d" % (i, hamcycle[i].origin.nodeid, hamcycle[i].destination.nodeid, hamcycle[i].distance))
+            print("[hamcycle] i: %d\t\torigin.nodeid: %d\tdestination.nodeid: %d\tdistance: %d" % (i, hamcycle[i].origin.nodeid, hamcycle[i].destination.nodeid, hamcycle[i].distance))
         distance, nodesvisited = generateoutput(hamcycle)
         print("distance travelled: %d" % distance)
         for node in nodesvisited:

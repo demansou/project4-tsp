@@ -214,14 +214,17 @@ def optimizehamcycle(hamcycle):
     :param hamcycle:
     :return:
     """
-    hamcycledistance = 0
-    temphamcycledistance = 0
+    improveperformance = 0
+    if len(hamcycle) > 2500:
+        improveperformance = 1
     for i in range(0, len(hamcycle) - 1):
         for j in range(0, len(hamcycle) - 1):
             print("[optimizehamcycle] i: %d\tj: %d" % (i, j))
             if i != j:
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     hamcycle = edge_swap(hamcycle, i, j)
+                    if improveperformance:
+                        break
     return hamcycle
 
 

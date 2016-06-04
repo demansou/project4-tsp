@@ -206,7 +206,31 @@ def routes_overlap(MapConnection1, MapConnection2):
     intersect = (numerator / denominator.astype(float)) * route2 + origin2
     if DEBUG:
         print("[hamcycle] %f %f" % (intersect[0], intersect[1]))
-    return
+    if origin1[0] > destination1[0]:
+        if not (origin1[0] >= intersect[0] >= destination1[0]):
+            return False
+    elif origin1[0] < destination1[0]:
+        if not (origin1[0] <= intersect[0] <= destination1[0]):
+            return False
+    if origin1[1] > destination1[1]:
+        if not (origin1[1] >= intersect[1] >= destination1[1]):
+            return False
+    elif origin1[1] < destination1[1]:
+        if not (origin1[1] <= intersect[1] <= destination1[1]):
+            return False
+    if origin2[0] > destination2[0]:
+        if not (origin2[0] >= intersect[0] >= destination2[0]):
+            return False
+    elif origin2[0] < destination2[0]:
+        if not (origin2[0] <= intersect[0] <= destination2[0]):
+            return False
+    if origin2[1] > destination2[1]:
+        if not (origin2[1] >= intersect[1] >= destination2[1]):
+            return False
+    elif origin2[1] < destination2[1]:
+        if not (origin2[1] <= intersect[1] <= destination2[1]):
+            return False
+    return True
 
 
 def optimizehamcycle(hamcycle, map):

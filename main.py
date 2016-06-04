@@ -171,7 +171,7 @@ def edge_swap(hamcycle, i, j):
     """
     olddistance = nodedistance(hamcycle[i].origin, hamcycle[i].destination) + nodedistance(hamcycle[j].origin, hamcycle[j].destination)
     newdistance = nodedistance(hamcycle[i].origin, hamcycle[j].destination) + nodedistance(hamcycle[j].origin, hamcycle[i].destination)
-
+    print("olddistance: %d\t newdistance: %d" % (olddistance, newdistance))
     if olddistance > newdistance:
         # The next three lines use a temp node to swap the data
         temp_node = hamcycle[i].origin

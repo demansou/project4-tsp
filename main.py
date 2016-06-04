@@ -13,7 +13,6 @@ import sys
 import re
 import math
 import timeit
-import numpy
 
 #############################################################
 # DEBUG
@@ -21,7 +20,7 @@ import numpy
 # 0 = OFF
 #############################################################
 
-DEBUG = 1
+DEBUG = 0
 
 #############################################################
 # Classes
@@ -124,6 +123,8 @@ def formatmap(filecontents):
         list[i] = filter(None, list[i])
         for j in range(0, len(list[i])):
             list[i][j] = list[i][j].strip()
+        if DEBUG:
+            print("%s %s %s" % (list[i][0], list[i][1], list[i][2]))
         map.append(Node(int(list[i][0]), int(list[i][1]), int(list[i][2])))
     return map
 
@@ -154,6 +155,28 @@ def greedyhamiltoniancycle(map):
     hamcycle.append(connection)
     return hamcycle
 
+def edge_swap(hamcycle, i, j):
+    """
+    edge_swap will take the current hamcycle and the index positions of two edges
+    Only the destination nodes will be swapped
+    :param hamcycle: list of edges [matrixid, destination node id, origin node id, distance]
+    :param i: node 1 to swap
+    :param j: node 2 to swap
+    :return: updated hamcycle with two new edges and edge distance updates
+    """
+    # The next three lines use a temp node to swap the data
+    hamcycle[i].destination = hamcycle[j].destination
+    temp_node = hamcycle[i].destination
+    hamcycle[j].destination = temp_node
+    if DEBUG:
+        print("[ANTE SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
+
+    # Update the distances of the new paths
+    hamcycle[i].distance = nodedistance(hamcycle[i].origin, hamcycle[i].destination)
+    hamcycle[j].distance = nodedistance(hamcycle[j].origin, hamcycle[j].destination)
+    if DEBUG:
+        print("[POST SWAP] - distance of ham i:%d\t\tdistance of ham j:%d" % (hamcycle[i].distance, hamcycle[j].distance))
+    return hamcycle
 
 def routes_overlap(MapConnection1, MapConnection2):
     """
@@ -228,9 +251,9 @@ def main(filepath):
             print("[map] id: %d\tx coord: %d\ty coord: %d" % (map[i].nodeid, map[i].x, map[i].y))
         hamcycle = greedyhamiltoniancycle(map)
         for i in range(0, len(hamcycle)):
-            print("[hamcycle] %d:\t%d\t%d\t%d" % (i, hamcycle[i].origin.nodeid, hamcycle[i].destination.nodeid, hamcycle[i].distance))
+            print("[hamcycle] i: %d\t\torigin.nodeid: %d\tdestination.nodeid: %d\tdistance: %d" % (i, hamcycle[i].origin.nodeid, hamcycle[i].destination.nodeid, hamcycle[i].distance))
         distance, nodesvisited = generateoutput(hamcycle)
-        print("distance travelled: %d" % distance)
+        print("distance traveled: %d" % distance)
         for node in nodesvisited:
             print("node visited: %d" % node.nodeid)
         printtofile(filepath, distance, nodesvisited)

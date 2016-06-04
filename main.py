@@ -184,17 +184,17 @@ def edge_swap(hamcycle, i, j):
     return hamcycle
 
 
-def routes_overlap(MapConnection1, MapConnection2):
+def routes_overlap(mapconnection1, mapconnection2):
     """
     function to decide if
-    :param MapConnection1: (MapConnection object)
-    :param MapConnection2: (MapConnection object)
+    :param mapconnection1: (MapConnection object)
+    :param mapconnection2: (MapConnection object)
     :return bool:
     """
-    origin1 = numpy.array([MapConnection1.origin.x, MapConnection1.origin.y])
-    destination1 = numpy.array([MapConnection1.destination.x, MapConnection1.destination.y])
-    origin2 = numpy.array([MapConnection2.origin.x, MapConnection2.origin.y])
-    destination2 = numpy.array([MapConnection2.destination.x, MapConnection2.destination.y])
+    origin1 = numpy.array([mapconnection1.origin.x, mapconnection1.origin.y])
+    destination1 = numpy.array([mapconnection1.destination.x, mapconnection1.destination.y])
+    origin2 = numpy.array([mapconnection2.origin.x, mapconnection2.origin.y])
+    destination2 = numpy.array([mapconnection2.destination.x, mapconnection2.destination.y])
     equation1 = numpy.cross((origin1 * destination1), (destination1 * origin2)) \
                 * numpy.cross((origin1 * destination1), (destination1 * destination2))
     equation2 = numpy.cross((origin2 * destination2), (destination2 * origin1)) \

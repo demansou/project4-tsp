@@ -21,7 +21,7 @@ import numpy
 # 0 = OFF
 #############################################################
 
-DEBUG = 0
+DEBUG = 1
 
 #############################################################
 # Classes
@@ -205,7 +205,7 @@ def routes_overlap(MapConnection1, MapConnection2):
     numerator = numpy.dot(perpendicularslope, distance1)
     intersect = (numerator / denominator.astype(float)) * route2 + origin2
     if DEBUG:
-        print("[hamcycle] %f" % intersect[0])
+        print("[hamcycle] %f %f" % (intersect[0], intersect[1])
     return
 
 

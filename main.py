@@ -226,7 +226,7 @@ def optimizehamcycle(hamcycle):
                 if routes_overlap(hamcycle[i], hamcycle[j]):
                     hamcycle = edge_swap(hamcycle, i, j)
                     if COMPETITION:
-                        randomnumber = random.randrange(0, 45)
+                        randomnumber = random.randrange(0, 10)
                         if randomnumber == 0:
                             break
     return hamcycle
@@ -284,7 +284,12 @@ def main(filepath):
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
     hamcycle = greedyhamiltoniancycle(map)
+
     hamcycle = optimizehamcycle(hamcycle)
+    hamcycle = optimizehamcycle(hamcycle)
+    hamcycle = optimizehamcycle(hamcycle)
+
+
     distance, nodesvisited = generateoutput(hamcycle)
     printtofile(filepath, distance, nodesvisited)
     return

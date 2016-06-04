@@ -13,6 +13,7 @@ import sys
 import re
 import math
 import timeit
+import numpy
 
 #############################################################
 # DEBUG
@@ -20,7 +21,7 @@ import timeit
 # 0 = OFF
 #############################################################
 
-DEBUG = 0
+DEBUG = 1
 
 #############################################################
 # Classes
@@ -123,8 +124,6 @@ def formatmap(filecontents):
         list[i] = filter(None, list[i])
         for j in range(0, len(list[i])):
             list[i][j] = list[i][j].strip()
-        if DEBUG:
-            print("%s %s %s" % (list[i][0], list[i][1], list[i][2]))
         map.append(Node(int(list[i][0]), int(list[i][1]), int(list[i][2])))
     return map
 
@@ -154,6 +153,39 @@ def greedyhamiltoniancycle(map):
     connection = MapConnection(len(map), map[len(map) - 1], map[0], nodedistance(map[len(map) - 1], map[0]))
     hamcycle.append(connection)
     return hamcycle
+
+
+def routes_overlap(MapConnection1, MapConnection2):
+    """
+    function to decide if
+    :param MapConnection1: (MapConnection object)
+    :param MapConnection2: (MapConnection object)
+    :return bool:
+    """
+    origin1 = numpy.array([float(MapConnection1.origin.x), float(MapConnection1.origin.y)])
+    destination1 = numpy.array([float(MapConnection1.destination.x), float(MapConnection1.destination.y)])
+    origin2 = numpy.array([float(MapConnection2.origin.x), float(MapConnection2.origin.y)])
+    destination2 = numpy.array([float(MapConnection2.destination.x), float(MapConnection2.destination.y)])
+    route1 = destination1 - origin1
+    route2 = destination2 - origin2
+    distance1 = origin1 - origin2
+    perpendicularslope = numpy.empty_like(route1)
+    perpendicularslope[0] = -route1[1]
+    perpendicularslope[1] = route1[0]
+    denominator = numpy.dot(perpendicularslope, route2)
+    numerator = numpy.dot(perpendicularslope, distance1)
+    intersect = (numerator / denominator.astype(float)) * route2 + origin2
+    if DEBUG:
+        print("[hamcycle]%f" % intersect)
+    return
+
+def optimizehamcycle(hamcycle, map):
+    """
+
+    :param hamcycle:
+    :return:
+    """
+    return
 
 def generateoutput(hamcycle):
     """
@@ -202,6 +234,7 @@ def main(filepath):
         for node in nodesvisited:
             print("node visited: %d" % node.nodeid)
         printtofile(filepath, distance, nodesvisited)
+        routes_overlap(hamcycle[0], hamcycle[1])
     filecontents = readfile(filepath)
     map = formatmap(filecontents)
     hamcycle = greedyhamiltoniancycle(map)
